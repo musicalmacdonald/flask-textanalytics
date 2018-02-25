@@ -1,5 +1,5 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, request
+from library import textanalytics as ta
 
 app = Flask(__name__)
 
@@ -9,10 +9,23 @@ def mainpage():
     name = 'Matie'
     return render_template('index.html', name=name)
 
-
+"""
 @app.route('/')
 def hello_world():
     return 'hello world'
+    """
 
-
-
+@app.route('/', methods=['POST', 'GET'])
+def hello_world():
+    if request.method == 'GET':
+        return render_template('forms/textanalytics_form.html')
+    elif request.method == 'POST':
+        kwargs = {
+            'string1': request.form['string1'],
+            'string2': request.form['string2'],
+            'dict1':ta.wordcount(string1),
+            #'union': ta.union(request.form['string1'],request.form['string2']),
+            'submit_value': request.form['submit'],
+            }
+        return render_template(
+            'forms/textanalytics_form_results.html', **kwargs)
