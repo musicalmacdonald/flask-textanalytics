@@ -20,12 +20,28 @@ def hello_world():
     if request.method == 'GET':
         return render_template('forms/textanalytics_form.html')
     elif request.method == 'POST':
+
         kwargs = {
             'string1': request.form['string1'],
             'string2': request.form['string2'],
-            'dict1':ta.wordcount(string1),
-            #'union': ta.union(request.form['string1'],request.form['string2']),
-            'submit_value': request.form['submit'],
+            'union': ta.union(request.form['string1'],request.form['string2']),
             }
+
         return render_template(
             'forms/textanalytics_form_results.html', **kwargs)
+
+#This takes the direct route (no dictionary for variables)
+    '''
+    def hello_world():
+    if request.method == 'GET':
+        return render_template('forms/textanalytics_form.html')
+    elif request.method == 'POST':
+        
+        string1=request.form['string1']
+        string2=request.form['string2']
+        union=ta.union(string1, string2)
+        
+        return render_template(
+            'forms/textanalytics_form_results.html', string1=string1,string2=string2,union=union)
+            
+            '''
